@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
+from utils import open_html
 
 # Для начала определим настройки запуска
 hostName = "localhost"  # Адрес для доступа по сети
@@ -12,16 +12,11 @@ class MyServer(BaseHTTPRequestHandler):
         обработку входящих запросов от клиентов
     """
 
-    def __open_index(self, file):
-        with open(file, 'r', encoding='utf-8') as file:
-            result = file.read()
-            return result
-
     def do_GET(self):
         """ Метод для обработки входящих GET-запросов """
-        page_content = self.__open_index('index.html')
+        page_content = open_html('index.html')
         self.send_response(200)  # Отправка кода ответа
-        self.send_header("Content-type", "application/json")  # Отправка типа данных, который будет передаваться
+        self.send_header("Content-type", "text/html")  # Отправка типа данных, который будет передаваться
         self.end_headers()  # Завершение формирования заголовков ответа
         self.wfile.write(bytes(page_content, "utf-8"))  # Тело ответа
 
